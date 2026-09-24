@@ -119,7 +119,7 @@ func UnpackTar(r io.Reader, dir string) (Digest, error) {
 		parentRel, base := filepath.Split(name)
 		// Resolve the parent with symlinks scoped to dir: a layer that
 		// ships "etc -> /host/etc" and then "etc/passwd" must not write
-		// outside the layer (CVE-2019-14271-style traversal).
+		// outside the layer (the bug class behind CVE-2018-15664).
 		parent, err := fsutil.SecureJoin(dir, parentRel)
 		if err != nil {
 			return "", err

@@ -24,10 +24,12 @@ type fakeRuntime struct {
 	creates int
 	// exitOnStart makes every container of an image exit immediately.
 	exitOnStart map[string]int
+	// maxRunning records the peak number of running containers per service.
+	maxRunning map[string]int
 }
 
 func newFakeRuntime() *fakeRuntime {
-	return &fakeRuntime{images: map[string]bool{}, ctrs: map[string]*container.Info{}, nextIP: 2, exitOnStart: map[string]int{}}
+	return &fakeRuntime{images: map[string]bool{}, ctrs: map[string]*container.Info{}, nextIP: 2, exitOnStart: map[string]int{}, maxRunning: map[string]int{}}
 }
 
 func (f *fakeRuntime) HasImage(ref string) bool {
@@ -73,6 +75,16 @@ func (f *fakeRuntime) start(c *container.Info) {
 		c.State.Status = container.StatusExited
 		c.State.ExitCode = code
 		c.State.FinishedAt = time.Now()
+	}
+	svc := c.Labels[LabelService]
+	n := 0
+	for _, o := range f.ctrs {
+		if o.Labels[LabelService] == svc && o.State.Status == container.StatusRunning {
+			n++
+		}
+	}
+	if n > f.maxRunning[svc] {
+		f.maxRunning[svc] = n
 	}
 }
 
@@ -543,4 +555,33 @@ func TestPublicPortConflict(t *testing.T) {
 	if _, _, err := h.e.Apply(b); err == nil {
 		t.Fatal("second service on the same public port should be rejected")
 	}
+}
+
+func TestVolumeServiceIsRecreatedNeverOverlapped(t *testing.T) {
+	h := newHarness(t, nil, "")
+	db := func(image string) ServiceSpec {
+		return ServiceSpec{Name: "db", Image: image, Port: 5432, Volume: &Volume{Name: "pgdata", MountPath: "/var/lib/postgresql/data"},
+			Healthcheck: &Healthcheck{Type: "tcp", IntervalSeconds: 1}, DeployTimeoutSeconds: 2}
+	}
+	h.e.Apply(db("postgres:16"))
+	h.eventually("rev 1 ACTIVE", func() bool { return h.status("db", 1) == StatusActive })
+	h.e.Apply(db("postgres:17"))
+	h.eventually("rev 2 ACTIVE", func() bool { return h.status("db", 2) == StatusActive })
+	h.rt.mu.Lock()
+	peak := h.rt.maxRunning["db"]
+	h.rt.mu.Unlock()
+	if peak != 1 {
+		t.Fatalf("two database instances ran on one volume at the same time (peak %d)", peak)
+	}
+
+	// A broken new version: the old one must come back on its own.
+	h.prober.mu.Lock()
+	h.prober.bad["postgres:broken"] = true
+	h.prober.mu.Unlock()
+	h.e.Apply(db("postgres:broken"))
+	h.eventually("rev 3 FAILED", func() bool { return h.status("db", 3) == StatusFailed })
+	h.eventually("rev 2 serving again", func() bool {
+		r := h.rt.running("db")
+		return len(r) == 1 && r[0].Image == "postgres:17"
+	})
 }

@@ -57,10 +57,43 @@ func (e *Engine) sync(ctx context.Context, name string) time.Duration {
 	}
 
 	if target, active := e.targetAndActive(name); target != nil {
+		if target.Spec.Volume != nil {
+			// A volume is a single-writer resource: two database processes on
+			// one data directory corrupt it (Postgres' own lock file cannot
+			// tell, because PIDs from another namespace look stale). So a
+			// service with a volume is *recreated*: every older instance is
+			// stopped and removed before the new one starts. The cost is a
+			// short downtime; the alternative is lost data. If the new
+			// deployment fails, maintain() brings the old one back.
+			var old []container.Info
+			for depID, insts := range byDep {
+				if depID != target.ID {
+					old = append(old, insts...)
+				}
+			}
+			if len(old) > 0 {
+				fresh := 0
+				for _, c := range old {
+					if !e.isStopping(c.ID) {
+						fresh++
+					}
+					e.retire(name, c)
+				}
+				if fresh > 0 {
+					e.publish(Event{Service: name, Deployment: target.ID, Type: "deployment",
+						Message: fmt.Sprintf("rev %d uses volume %s: stopping %d older instance(s) before starting (recreate, not rolling)", target.Revision, target.Spec.Volume.Name, fresh)})
+				}
+				e.route(name, nil)
+				return 200 * time.Millisecond
+			}
+		}
 		soonest(e.rollout(ctx, target, active, byDep[target.ID]))
 	}
 	target, active := e.targetAndActive(name)
-	if active != nil {
+	// During a recreate rollout the old deployment is deliberately down;
+	// maintaining it would "repair" it straight back onto the volume.
+	recreating := target != nil && target.Spec.Volume != nil
+	if active != nil && !recreating {
 		soonest(e.maintain(active, byDep[active.ID]))
 	}
 
@@ -247,7 +280,7 @@ func (e *Engine) rollout(ctx context.Context, t, active *Deployment, insts []con
 	e.mu.Unlock()
 	e.metrics.promotions.Add(1)
 	msg := fmt.Sprintf("rev %d is live (%d/%d healthy, took %s)", t.Revision, healthy, sp.Replicas, now.Sub(t.StartedAt).Round(time.Millisecond))
-	if active != nil {
+	if active != nil && sp.Volume == nil {
 		msg += fmt.Sprintf("; draining rev %d for %s", active.Revision, drain)
 	}
 	e.publish(Event{Service: t.Service, Deployment: t.ID, Type: "deployment", Message: msg})

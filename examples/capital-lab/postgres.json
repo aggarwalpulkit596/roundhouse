@@ -1,0 +1,16 @@
+{
+  "name": "capital-lab-db",
+  "image": "mirror.gcr.io/library/postgres:17-alpine",
+  "env": {
+    "POSTGRES_DB": "capital_lab",
+    "POSTGRES_USER": "capital_lab",
+    "POSTGRES_PASSWORD": "local_demo_only"
+  },
+  "port": 5432,
+  "publicPort": 55432,
+  "healthcheck": { "type": "tcp", "intervalSeconds": 2 },
+  "volume": { "name": "capital-lab-pg", "mountPath": "/var/lib/postgresql/data" },
+  "memoryMb": 512,
+  "stopGraceSeconds": 30,
+  "deployTimeoutSeconds": 180
+}
