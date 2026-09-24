@@ -1,7 +1,11 @@
 {
   "name": "web",
   "image": "mirror.gcr.io/library/busybox:latest",
-  "cmd": ["sh", "-c", "mkdir -p /www && echo \"$VERSION from $HOSTNAME\" > /www/index.html && echo ok > /www/health && exec httpd -f -v -p $PORT -h /www"],
+  "cmd": [
+    "sh",
+    "-c",
+    "mkdir -p /www && echo \"$VERSION from $HOSTNAME\" > /www/index.html && echo ok > /www/health && exec httpd -f -v -p $PORT -h /www"
+  ],
   "env": { "VERSION": "v1" },
   "port": 8080,
   "publicPort": 18090,
