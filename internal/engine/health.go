@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
 )
 
 // Prober performs one health check against an instance.

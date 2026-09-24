@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/cgroups"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/cgroups"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
 )
 
 // Runtime is everything the engine needs from the node. The production

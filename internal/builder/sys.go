@@ -4,7 +4,7 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/network"
+	"github.com/aggarwalpulkit596/roundhouse/internal/network"
 )
 
 func statOwner(fi os.FileInfo) ([2]int, bool) {

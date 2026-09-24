@@ -16,9 +16,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
-	_ "github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/nsenter"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/runtime"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
+	_ "github.com/aggarwalpulkit596/roundhouse/internal/nsenter"
+	"github.com/aggarwalpulkit596/roundhouse/internal/runtime"
 )
 
 type command struct {

@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
 )
 
 // NodeInfo describes this node's capacity for a scheduler.

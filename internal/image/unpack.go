@@ -15,7 +15,7 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/fsutil"
+	"github.com/aggarwalpulkit596/roundhouse/internal/fsutil"
 )
 
 // OCI whiteouts (image-spec layer.md). A layer deletes a lower file by

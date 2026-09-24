@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/image"
 )
 
 // Prices are per-minute rates, the way usage-based platforms bill persistent

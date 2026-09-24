@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/runtime"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/runtime"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // ExecOptions describes a process to add to a running container.

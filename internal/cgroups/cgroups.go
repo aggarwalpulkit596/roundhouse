@@ -22,7 +22,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // Root is the cgroup filesystem mount point. Tests may override it.

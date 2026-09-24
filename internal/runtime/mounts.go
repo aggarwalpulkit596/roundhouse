@@ -7,9 +7,9 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/cgroups"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/fsutil"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/cgroups"
+	"github.com/aggarwalpulkit596/roundhouse/internal/fsutil"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // setupRootfs builds the container's view of the filesystem inside its new

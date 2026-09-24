@@ -13,7 +13,7 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // Namespaces, capabilities and prctl flags are per *thread* in Linux. Pin the

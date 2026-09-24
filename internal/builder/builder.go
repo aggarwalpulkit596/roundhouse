@@ -21,12 +21,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/fsutil"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/image"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/rootfs"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/runtime"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/fsutil"
+	"github.com/aggarwalpulkit596/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/rootfs"
+	"github.com/aggarwalpulkit596/roundhouse/internal/runtime"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // Options configure one build.

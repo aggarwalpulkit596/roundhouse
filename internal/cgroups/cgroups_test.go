@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // fakeV2 builds a directory tree that looks like a cgroup2 mount. The kernel

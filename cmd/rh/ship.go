@@ -13,8 +13,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/builder"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/registry"
+	"github.com/aggarwalpulkit596/roundhouse/internal/builder"
+	"github.com/aggarwalpulkit596/roundhouse/internal/registry"
 )
 
 func init() {

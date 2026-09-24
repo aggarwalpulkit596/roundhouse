@@ -15,9 +15,9 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/image"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 func init() {

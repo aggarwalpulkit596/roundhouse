@@ -48,7 +48,7 @@ Roundhouse is small enough to read in a week and real enough to deploy with: it 
 Requirements: Linux (a VM is fine), root, Go 1.24+. Roundhouse works on cgroup v1, hybrid and v2 hosts.
 
 ```sh
-cd roundhouse
+git clone https://github.com/aggarwalpulkit596/roundhouse && cd roundhouse
 go build -o rh ./cmd/rh
 export RH_ROOT=/var/lib/roundhouse          # state directory (the default)
 
@@ -111,10 +111,14 @@ go test -race ./...                                             # unit tests, no
 sudo env "PATH=$PATH" go test -tags integration -v ./integration/   # real kernel, ~20s
 ```
 
-The engine's control loop runs against a fake runtime in its unit tests, so rollouts, failed deploys, crash loops and daemon restarts are tested in milliseconds. The integration suite runs the actual binary: it proves PID 1 isolation, OOM kills, fork-bomb containment, capability dropping, bridge networking, `exec` into namespaces, reproducible cached builds, registry push/pull, and a rolling update that drops zero requests under load. CI runs both on every change under `roundhouse/` ([workflow](../.github/workflows/roundhouse.yml)).
+The engine's control loop runs against a fake runtime in its unit tests, so rollouts, failed deploys, crash loops and daemon restarts are tested in milliseconds. The integration suite runs the actual binary: it proves PID 1 isolation, OOM kills, fork-bomb containment, capability dropping, bridge networking, `exec` into namespaces, reproducible cached builds, registry push/pull, and a rolling update that drops zero requests under load. CI runs both on every push and pull request ([workflow](.github/workflows/ci.yml)).
 
 ## Scope and honesty
 
 Roundhouse is a teaching implementation. It is complete enough to run real workloads on one machine and to reason about many, but it is not hardened. Missing on purpose, and listed as [exercises](docs/12-exercises.md): seccomp filters, user namespaces (rootless), AppArmor/SELinux, zstd layers, image garbage collection, TLS/auth on the API and registry, and a multi-node control plane (the scheduler library is there; the controller is an exercise). The [security module](docs/04-security.md) explains what each gap would let an attacker do.
 
 Nothing here is Railway's code or a description of Railway's internals beyond what Railway has published. Where the docs compare with Railway, they cite the public source.
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).

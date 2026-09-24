@@ -28,11 +28,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/cgroups"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/image"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/network"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/rootfs"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/cgroups"
+	"github.com/aggarwalpulkit596/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/network"
+	"github.com/aggarwalpulkit596/roundhouse/internal/rootfs"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // Network modes.

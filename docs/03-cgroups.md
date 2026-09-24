@@ -75,7 +75,7 @@ Design points worth discussing in an interview:
 - **Counters, not gauges, for CPU.** `usage_usec` is cumulative, so a missed sample loses no CPU time; the next delta includes it. Memory is a gauge, so a missed sample is a small estimation error. Sampling it more often, or reading `memory.peak`, reduces the error.
 - **Restarts.** The previous reading is kept in memory only. After a daemon restart, the first sample only primes it, so no interval is counted twice. The cost is at most one interval of unbilled CPU per restart: the platform, not the customer, eats the error.
 - **A container that restarts has a new cgroup**, and its counter starts from zero. Keying the previous reading by container ID and treating "new < old" as a reset avoids negative deltas.
-- **Idempotent ingestion.** In a real system these samples would flow to a billing pipeline. Tag each sample with (container, sample time) so a retry cannot double bill. Capital Lab's ledger in the parent repository is built on the same principle.
+- **Idempotent ingestion.** In a real system these samples would flow to a billing pipeline. Tag each sample with (container, sample time) so a retry cannot double bill. The ledger in [Capital Lab](https://github.com/aggarwalpulkit596/capital-lab) is built on the same principle.
 
 ```sh
 sudo -E rh daemon --meter 2s &

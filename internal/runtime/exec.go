@@ -10,8 +10,8 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/cgroups"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/cgroups"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // ExecArg is argv[1] for the helper that runs a new process inside an

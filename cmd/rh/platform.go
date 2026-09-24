@@ -17,10 +17,10 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/api"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/engine"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/api"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/engine"
+	"github.com/aggarwalpulkit596/roundhouse/internal/image"
 )
 
 func init() {

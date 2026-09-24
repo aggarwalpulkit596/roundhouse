@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
 )
 
 // metrics exposes Prometheus text format by hand: the format is simple

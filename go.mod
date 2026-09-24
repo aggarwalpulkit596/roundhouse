@@ -1,4 +1,4 @@
-module github.com/aggarwalpulkit596/capital-lab/roundhouse
+module github.com/aggarwalpulkit596/roundhouse
 
 go 1.24
 

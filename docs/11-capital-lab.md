@@ -2,7 +2,7 @@
 
 > **Goal:** run a real application's infrastructure on the platform you built, and learn from what breaks.
 
-Capital Lab (the parent repository) is a Kotlin/JVM app backed by PostgreSQL. Its README tells you to start the database with `docker compose up -d --wait postgres`. This module replaces Docker with Roundhouse, and ties Roundhouse's usage metering back to Capital Lab's domain: both are about recording money-relevant events exactly once.
+[Capital Lab](https://github.com/aggarwalpulkit596/capital-lab) is a Kotlin/JVM app backed by PostgreSQL. Its README tells you to start the database with `docker compose up -d --wait postgres`. This module replaces Docker with Roundhouse, and ties Roundhouse's usage metering back to Capital Lab's domain: both are about recording money-relevant events exactly once.
 
 ## 1. PostgreSQL as a Roundhouse service
 
@@ -26,7 +26,7 @@ sudo -E rh run --rm --dns 10.88.0.1 -e PGPASSWORD=local_demo_only mirror.gcr.io/
   psql -h capital-lab-db.rh.internal -U capital_lab -d capital_lab -c 'select version();'
 
 # From the host, through the edge proxy, exactly where Capital Lab expects it:
-cd ..            # the capital-lab repository root
+git clone https://github.com/aggarwalpulkit596/capital-lab && cd capital-lab
 ./gradlew dashboard      # LAB_JDBC_URL defaults to jdbc:postgresql://127.0.0.1:55432/capital_lab
 ```
 

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/image"
 )
 
 func newServer(t *testing.T) (*httptest.Server, image.Reference, *image.Client) {

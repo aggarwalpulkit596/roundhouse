@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/fsutil"
+	"github.com/aggarwalpulkit596/roundhouse/internal/fsutil"
 )
 
 // ResolveUser turns an image USER string ("", "1000", "1000:1000", "app",

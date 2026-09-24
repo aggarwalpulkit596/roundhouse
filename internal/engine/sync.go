@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // sync reconciles one service and returns when it wants to be looked at

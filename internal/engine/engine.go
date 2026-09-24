@@ -16,9 +16,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/image"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/network"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/network"
 )
 
 // Labels the engine puts on every container it owns. Observed state is

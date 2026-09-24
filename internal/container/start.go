@@ -20,10 +20,10 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/cgroups"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/network"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/rootfs"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/runtime"
+	"github.com/aggarwalpulkit596/roundhouse/internal/cgroups"
+	"github.com/aggarwalpulkit596/roundhouse/internal/network"
+	"github.com/aggarwalpulkit596/roundhouse/internal/rootfs"
+	"github.com/aggarwalpulkit596/roundhouse/internal/runtime"
 )
 
 // ShimArg is argv[1] of the per-container supervisor process.

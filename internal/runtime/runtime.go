@@ -31,8 +31,8 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/cgroups"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/spec"
+	"github.com/aggarwalpulkit596/roundhouse/internal/cgroups"
+	"github.com/aggarwalpulkit596/roundhouse/internal/spec"
 )
 
 // InitArg is argv[1] when the binary is re-executed as a container's init.

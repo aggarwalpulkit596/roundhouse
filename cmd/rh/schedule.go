@@ -10,9 +10,9 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/api"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/engine"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/scheduler"
+	"github.com/aggarwalpulkit596/roundhouse/internal/api"
+	"github.com/aggarwalpulkit596/roundhouse/internal/engine"
+	"github.com/aggarwalpulkit596/roundhouse/internal/scheduler"
 )
 
 func init() {

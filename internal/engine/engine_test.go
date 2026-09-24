@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/cgroups"
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/container"
+	"github.com/aggarwalpulkit596/roundhouse/internal/cgroups"
+	"github.com/aggarwalpulkit596/roundhouse/internal/container"
 )
 
 // fakeRuntime is an in-memory node. Tests drive container exits and health

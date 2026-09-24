@@ -31,7 +31,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/aggarwalpulkit596/capital-lab/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/image"
 )
 
 // Server implements http.Handler.
