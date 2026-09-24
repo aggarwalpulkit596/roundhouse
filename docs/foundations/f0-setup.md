@@ -44,6 +44,8 @@ sudo rh run --rm mirror.gcr.io/library/alpine:3.20 echo "hello from a container 
 
 If the last line prints its message, you are ready.
 
+If `go build` fails with `build constraints exclude all Go files` or `cgo_is_disabled_install_a_C_compiler…`, the machine has no C compiler, so Go turned cgo off. Run `sudo apt-get install -y build-essential` and build again. (`rh exec` needs a few lines of C that run before the Go runtime starts; [module 1](../01-namespaces.md) explains why.)
+
 ## Habits that make the rest easier
 
 - **Keep a lab notebook.** A markdown file or a paper notebook. For every lab write what you ran, what you expected, and what actually happened. The gap between the last two is where you learn. It is also your interview material.
