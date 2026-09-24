@@ -266,7 +266,7 @@ func TestRegistryPushPull(t *testing.T) {
 
 func TestDaemonZeroDowntimeRolloutAndFailedDeploy(t *testing.T) {
 	sock := filepath.Join(rhRoot, "api.sock")
-	d := exec.Command(rhBin, "daemon", "--socket", sock, "--meter", "1s")
+	d := exec.Command(rhBin, "daemon", "--socket", sock, "--meter", "1s", "--http", "127.0.0.1:17070")
 	d.Env = append(os.Environ(), "RH_ROOT="+rhRoot)
 	logf, _ := os.Create(filepath.Join(t.TempDir(), "daemon.log"))
 	d.Stdout, d.Stderr = logf, logf
@@ -342,7 +342,32 @@ func TestDaemonZeroDowntimeRolloutAndFailedDeploy(t *testing.T) {
 	if usage := mustRh(t, "usage"); !strings.Contains(usage, "it-web") {
 		t.Fatalf("usage not metered:\n%s", usage)
 	}
+
+	// The dashboard is served, and mutations need the CSRF header.
+	waitHTTP(t, "http://127.0.0.1:17070/", "Roundhouse")
+	req, _ := http.NewRequest(http.MethodDelete, "http://127.0.0.1:17070/v1/services/it-web", nil)
+	if resp, err := noProxy.Do(req); err != nil || resp.StatusCode != http.StatusForbidden {
+		t.Fatalf("DELETE without X-Requested-By should be refused: %v %v", err, resp)
+	}
+
+	// Build from a folder and deploy, the way the dashboard's "Git repo or
+	// folder" form does.
+	src := t.TempDir()
+	os.WriteFile(filepath.Join(src, "Dockerfile"), []byte("FROM "+baseImg+"\nRUN mkdir -p /w && echo built-by-api > /w/index.html\nCMD [\"sh\", \"-c\", \"exec httpd -f -p $PORT -h /w\"]\n"), 0o644)
+	body := fmt.Sprintf(`{"source":%q,"spec":{"name":"it-built","port":8080,"publicPort":18383,"healthcheck":{"path":"/"}}}`, src)
+	req, _ = http.NewRequest(http.MethodPost, "http://127.0.0.1:17070/v1/builds", strings.NewReader(body))
+	req.Header.Set("X-Requested-By", "test")
+	resp, err := noProxy.Do(req)
+	if err != nil || resp.StatusCode != http.StatusAccepted {
+		b, _ := io.ReadAll(resp.Body)
+		t.Fatalf("start build: %v %s", err, b)
+	}
+	resp.Body.Close()
+	waitHTTP(t, "http://127.0.0.1:18383/", "built-by-api")
+	rh(nil, "svc", "rm", "it-built")
 }
+
+var noProxy = &http.Client{Timeout: 5 * time.Second, Transport: &http.Transport{Proxy: nil}}
 
 func waitHTTP(t *testing.T, url, want string) {
 	t.Helper()

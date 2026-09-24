@@ -44,6 +44,8 @@ sudo rh run --rm mirror.gcr.io/library/alpine:3.20 echo "hello from a container 
 
 If the last line prints its message, you are ready.
 
+**Shortcut:** inside the cloned repository, `sudo ./install.sh --lan` does the Go and Roundhouse steps for you, installs the daemon as a service, and prints a link to the web dashboard you can open from your laptop's browser. Do the manual steps above at least once anyway: knowing what the script does is part of the course.
+
 If `go build` fails with `build constraints exclude all Go files` or `cgo_is_disabled_install_a_C_compiler…`, the machine has no C compiler, so Go turned cgo off. Run `sudo apt-get install -y build-essential` and build again. (`rh exec` needs a few lines of C that run before the Go runtime starts; [module 1](../01-namespaces.md) explains why.)
 
 ## Habits that make the rest easier

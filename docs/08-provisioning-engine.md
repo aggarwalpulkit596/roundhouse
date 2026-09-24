@@ -132,6 +132,12 @@ The application has a part to play too: it should stop accepting and finish in-f
 
 Roundhouse's health checks are **readiness** checks: they gate promotion and routing. An instance that becomes unhealthy while ACTIVE is removed from routing (after three consecutive failures, to avoid flapping) but not restarted. Restarting on failed checks (**liveness**) is a separate, dangerous policy: when a shared dependency (the database) goes down, every replica fails its check at once, and a liveness policy restarts the whole fleet, turning a partial outage into a total one. Be ready to argue this.
 
+### The dashboard is just another client
+
+The web dashboard ([`internal/web`](../internal/web)) adds no logic of its own: it calls the same JSON API as the CLI (`PUT /v1/services/{name}`, `/redeploy`, `/rollback`, the NDJSON log and event streams), plus a build endpoint that clones a repository, runs the builder and then calls `Apply`. That is the right shape for a platform: one API, many clients (CLI, dashboard, CI, Terraform providers), so behaviour cannot drift between them. Railway's dashboard and CLI sit on its public API in the same way.
+
+Because the API can start root containers, the dashboard enforces three rules ([`web.go`](../internal/web/web.go)): a login token whenever it is reachable beyond loopback, a loopback `Host` check otherwise (so a malicious web page cannot use DNS rebinding to reach it), and a custom header on every state-changing request (so a cross-site form cannot submit to it). Each rule has a test in `web_test.go`.
+
 ## 5. Failure modes
 
 The interviewer's favourite part. Each row is tested in [`engine_test.go`](../internal/engine/engine_test.go) or the [integration suite](../integration/integration_test.go) unless marked.

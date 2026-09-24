@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"syscall"
@@ -18,9 +19,11 @@ import (
 	"time"
 
 	"github.com/aggarwalpulkit596/roundhouse/internal/api"
+	"github.com/aggarwalpulkit596/roundhouse/internal/builder"
 	"github.com/aggarwalpulkit596/roundhouse/internal/container"
 	"github.com/aggarwalpulkit596/roundhouse/internal/engine"
 	"github.com/aggarwalpulkit596/roundhouse/internal/image"
+	"github.com/aggarwalpulkit596/roundhouse/internal/web"
 )
 
 func init() {
@@ -29,6 +32,7 @@ func init() {
 	register("svc", "Platform", "Manage services: ls, status, logs, redeploy, rollback, rm", cmdSvc)
 	register("events", "Platform", "Show the engine's activity feed", cmdEvents)
 	register("usage", "Platform", "Show metered CPU/memory usage and cost", cmdUsage)
+	register("dashboard", "Platform", "Print the dashboard URL (with a login link if a token is set)", cmdDashboard)
 }
 
 // ---------------------------------------------------------------------------
@@ -37,7 +41,8 @@ func init() {
 func cmdDaemon(args []string) error {
 	fs := flag.NewFlagSet("daemon", flag.ExitOnError)
 	socket := fs.String("socket", api.DefaultSocket, "unix socket for the API")
-	httpAddr := fs.String("http", "", "also serve the API on this TCP address (e.g. 127.0.0.1:7070)")
+	httpAddr := fs.String("http", "127.0.0.1:7070", "serve the dashboard and API on this address (\"\" to disable; 0.0.0.0:7070 to reach it from other machines, token required)")
+	tokenFlag := fs.String("token", "", "dashboard token (default: generated and saved when --http is not loopback)")
 	nodeName := fs.String("node", "", "node name (default: hostname)")
 	workers := fs.Int("workers", 4, "services reconciled in parallel")
 	noDNS := fs.Bool("no-dns", false, "do not run the private DNS server on the bridge gateway")
@@ -91,7 +96,9 @@ func cmdDaemon(args []string) error {
 		}()
 	}
 
-	handler := eng.Handler(*nodeName, memTotalMB())
+	builds := web.NewBuilds(&builder.Builder{Store: m.Images, Dir: filepath.Join(m.Root, "build")}, eng, filepath.Join(m.Root, "build", "checkouts"))
+	engineAPI := eng.Handler(*nodeName, memTotalMB())
+	handler := web.APIHandler(engineAPI, builds)
 	_ = os.Remove(*socket)
 	ln, err := net.Listen("unix", *socket)
 	if err != nil {
@@ -102,9 +109,17 @@ func cmdDaemon(args []string) error {
 	errc := make(chan error, 2)
 	go func() { errc <- engine.Serve(ctx, srv, func() error { return srv.Serve(ln) }) }()
 	if *httpAddr != "" {
-		tsrv := &http.Server{Addr: *httpAddr, Handler: handler, ReadHeaderTimeout: 10 * time.Second}
+		loopback := web.IsLoopbackAddr(*httpAddr)
+		token := *tokenFlag
+		if token == "" && !loopback {
+			if token, err = dashboardToken(m.Root); err != nil {
+				return err
+			}
+		}
+		ui := web.Handler(web.Config{API: engineAPI, Builds: builds, Token: token, LoopbackOnly: loopback})
+		tsrv := &http.Server{Addr: *httpAddr, Handler: ui, ReadHeaderTimeout: 10 * time.Second}
 		go func() { errc <- engine.Serve(ctx, tsrv, tsrv.ListenAndServe) }()
-		fmt.Printf("API on http://%s\n", *httpAddr)
+		fmt.Println(dashboardURL(*httpAddr, token))
 	}
 	fmt.Printf("roundhouse daemon on %s (node %s, state %s, private DNS %s)\n", *socket, *nodeName, m.Root, dnsState(*noDNS, gw))
 
@@ -544,4 +559,82 @@ func dim(s string) string {
 		return "\033[2m" + s + "\033[0m"
 	}
 	return s
+}
+
+// ---------------------------------------------------------------------------
+// dashboard
+
+// dashboardToken loads or creates the dashboard token (RH_ROOT/ui-token,
+// readable by root only).
+func dashboardToken(root string) (string, error) {
+	p := filepath.Join(root, "ui-token")
+	if b, err := os.ReadFile(p); err == nil && len(strings.TrimSpace(string(b))) >= 16 {
+		return strings.TrimSpace(string(b)), nil
+	}
+	t := web.NewToken()
+	if err := os.WriteFile(p, []byte(t+"\n"), 0o600); err != nil {
+		return "", err
+	}
+	return t, nil
+}
+
+// dashboardURL is the address to open, with a one-click login when a token
+// is required. For 0.0.0.0 it lists the machine's addresses.
+func dashboardURL(addr, token string) string {
+	host, port, _ := net.SplitHostPort(addr)
+	hosts := []string{host}
+	if host == "" || host == "0.0.0.0" || host == "::" {
+		hosts = nil
+		if ifaces, err := net.InterfaceAddrs(); err == nil {
+			for _, a := range ifaces {
+				if ipn, ok := a.(*net.IPNet); ok && ipn.IP.To4() != nil && !ipn.IP.IsLoopback() && !strings.HasPrefix(ipn.IP.String(), "10.88.") {
+					hosts = append(hosts, ipn.IP.String())
+				}
+			}
+		}
+		if len(hosts) == 0 {
+			hosts = []string{"<this-machine's-ip>"}
+		}
+	}
+	var b strings.Builder
+	b.WriteString("dashboard:")
+	for _, h := range hosts {
+		if token != "" {
+			fmt.Fprintf(&b, "\n  http://%s/login?token=%s", net.JoinHostPort(h, port), token)
+		} else {
+			fmt.Fprintf(&b, "\n  http://%s", net.JoinHostPort(h, port))
+		}
+	}
+	if token != "" {
+		b.WriteString("\n  (the token is in RH_ROOT/ui-token; anyone with it can run containers here)")
+	}
+	return b.String()
+}
+
+func cmdDashboard(args []string) error {
+	fs := flag.NewFlagSet("dashboard", flag.ExitOnError)
+	addr := fs.String("http", "", "the address the daemon serves the dashboard on (default: read from the running service, else 127.0.0.1:7070)")
+	_ = fs.Parse(args)
+	if *addr == "" {
+		*addr = "127.0.0.1:7070"
+		if b, err := os.ReadFile("/etc/default/roundhouse"); err == nil {
+			for _, line := range strings.Split(string(b), "\n") {
+				if v, ok := strings.CutPrefix(strings.TrimSpace(line), "RH_HTTP="); ok && v != "" {
+					*addr = strings.Trim(v, `"`)
+				}
+			}
+		}
+	}
+	token := ""
+	if !web.IsLoopbackAddr(*addr) {
+		if os.Geteuid() != 0 {
+			return fmt.Errorf("reading the dashboard token needs root: sudo rh dashboard")
+		}
+		var err error
+		if token, err = dashboardToken(stateRoot()); err != nil {
+			return err
+		}
+	}
+	fmt.Println(dashboardURL(*addr, token))
+	return nil
 }

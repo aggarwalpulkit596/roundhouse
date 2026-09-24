@@ -6,12 +6,47 @@ Roundhouse is small enough to read in a week and real enough to deploy with: it 
 
 > A roundhouse is the building where a railway services its locomotives. This one is for learning how the engines work.
 
-**~11,600 lines of commented Go · 3 dependencies (x/sys, netlink, x/sync) · 53 unit tests · 12 root integration tests on a real kernel**
+**Deploy containers from a Railway-style dashboard, and learn exactly how every piece underneath works.**
+
+![Roundhouse dashboard](docs/images/dashboard-canvas.png)
+
+## Get started in 3 steps
+
+You need a Linux machine where you can use `sudo`: a VM on your laptop is perfect ([how to get one](docs/foundations/f0-setup.md)).
+
+**1. Get the code** (inside the Linux machine)
+
+```sh
+git clone https://github.com/aggarwalpulkit596/roundhouse && cd roundhouse
+```
+
+**2. Install** (dependencies, Go, Roundhouse, and a service that starts it on boot)
+
+```sh
+sudo ./install.sh          # dashboard for this machine only: http://localhost:7070
+sudo ./install.sh --lan    # or: open the dashboard from your laptop's browser (prints a login link)
+```
+
+**3. Open the dashboard and click _New_**
+
+![New service: templates, Docker images, or your own code](docs/images/dashboard-new.png)
+
+- **Template:** one click for PostgreSQL, Redis, nginx, a demo site, or the hello app built from source.
+- **Docker image:** any public image, with a port, replicas, variables, a health check and a volume.
+- **Git repo or folder:** point it at a repository or a directory with a Dockerfile or Railfile. Roundhouse builds it (build logs stream live) and deploys it.
+
+Click a service to see its deployments, live logs, metrics and cost, variables and settings. Changing anything creates a new deployment that rolls out with zero downtime; a broken one fails without touching the version that is serving, and **Roll back** is one click.
+
+![Deployments: every change is a new revision; roll back to any live one](docs/images/dashboard-deployments.png)
+
+Lost the login link? `sudo rh dashboard` prints it again. Everything in the dashboard is also available from the CLI (`sudo rh --help`), which is what the curriculum uses to show what happens underneath.
+
+**At a glance:** ~12,000 lines of commented Go · 3 dependencies (x/sys, netlink, x/sync) · a dependency-free web dashboard embedded in the binary · 62 unit tests · 12 root integration tests on a real kernel
 
 ## What it does
 
 ```text
-                        rh CLI  ──── unix socket / HTTP ────┐
+          rh CLI (unix socket) · dashboard (HTTP :7070) ───┐
                                                            ▼
  ┌──────────────────────────── rh daemon (per node) ─────────────────────────────┐
  │  API ── desired state (services, deployments) ── work-queue reconciler        │
@@ -43,9 +78,9 @@ Roundhouse is small enough to read in a week and real enough to deploy with: it 
 | Builds           | `docker build`, Railway builds  | [`internal/builder`](internal/builder)                                                     | BuildKit                                 |
 | Placement        | kube-scheduler                  | [`internal/scheduler`](internal/scheduler)                                                 | kube-scheduler, Nomad, Borg              |
 
-## Quick start
+## Quick start from the command line
 
-Requirements: Linux (a VM is fine), root, Go 1.24+. Roundhouse works on cgroup v1, hybrid and v2 hosts.
+The same things, step by step, with the CLI. Requirements: Linux (a VM is fine), root, Go 1.24+. Roundhouse works on cgroup v1, hybrid and v2 hosts.
 
 ```sh
 git clone https://github.com/aggarwalpulkit596/roundhouse && cd roundhouse
@@ -75,12 +110,12 @@ sudo -E ./rh usage
 
 ## Commands
 
-| Group      | Commands                                                                                |
-| ---------- | --------------------------------------------------------------------------------------- |
-| Containers | `run` `create` `start` `ps` `exec` `logs` `stop` `kill` `rm` `stats` `inspect`          |
-| Images     | `pull` `images` `tag` `rmi`                                                             |
-| Build/ship | `build` `push` `registry`                                                               |
-| Platform   | `daemon` `deploy` `svc ls/status/logs/redeploy/rollback/rm` `events` `usage` `schedule` |
+| Group      | Commands                                                                                            |
+| ---------- | --------------------------------------------------------------------------------------------------- |
+| Containers | `run` `create` `start` `ps` `exec` `logs` `stop` `kill` `rm` `stats` `inspect`                      |
+| Images     | `pull` `images` `tag` `rmi`                                                                         |
+| Build/ship | `build` `push` `registry`                                                                           |
+| Platform   | `daemon` `dashboard` `deploy` `svc ls/status/logs/redeploy/rollback/rm` `events` `usage` `schedule` |
 
 Run `rh <command> -h` for flags.
 
