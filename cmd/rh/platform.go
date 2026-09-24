@@ -162,6 +162,7 @@ func cmdDeploy(args []string) error {
 	restart := fs.String("restart", "", "restart policy: always, on-failure, never")
 	volume := fs.String("volume", "", "persistent volume NAME:/mount/path")
 	drain := fs.Int("drain", 0, "seconds replaced instances keep draining")
+	timeout := fs.Int("timeout", 0, "seconds a deployment may take to become healthy")
 	cmdStr := fs.String("cmd", "", "command override (whitespace separated)")
 	wait := fs.Bool("wait", true, "stream events until the deployment is ACTIVE or FAILED")
 	var env stringList
@@ -204,6 +205,7 @@ func cmdDeploy(args []string) error {
 	setIf(&sp.Replicas, *replicas)
 	setIf(&sp.MemoryMB, *memory)
 	setIf(&sp.DrainSeconds, *drain)
+	setIf(&sp.DeployTimeoutSeconds, *timeout)
 	if *cpu > 0 {
 		sp.CPU = *cpu
 	}

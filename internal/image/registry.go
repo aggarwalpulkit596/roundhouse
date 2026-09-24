@@ -226,7 +226,7 @@ func (c *Client) BlobExists(ctx context.Context, r Reference, d Digest) (bool, e
 	if err != nil {
 		return false, err
 	}
-	resp.Body.Close()
+	defer resp.Body.Close()
 	switch resp.StatusCode {
 	case http.StatusOK:
 		return true, nil
@@ -244,10 +244,11 @@ func (c *Client) PutBlob(ctx context.Context, r Reference, d Digest, size int64,
 	if err != nil {
 		return err
 	}
-	resp.Body.Close()
 	if resp.StatusCode != http.StatusAccepted {
+		defer resp.Body.Close()
 		return httpError("start upload", resp)
 	}
+	resp.Body.Close()
 	loc, err := resolveLocation(c.base(r), resp.Header.Get("Location"))
 	if err != nil {
 		return err
@@ -269,7 +270,7 @@ func (c *Client) PutBlob(ctx context.Context, r Reference, d Digest, size int64,
 	if err != nil {
 		return err
 	}
-	resp.Body.Close()
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusCreated {
 		return httpError("finish upload", resp)
 	}
@@ -284,7 +285,7 @@ func (c *Client) PutManifest(ctx context.Context, r Reference, id, mediaType str
 	if err != nil {
 		return err
 	}
-	resp.Body.Close()
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusCreated && resp.StatusCode != http.StatusOK {
 		return httpError("put manifest", resp)
 	}

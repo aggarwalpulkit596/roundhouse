@@ -84,6 +84,9 @@ func ResolveUser(root, user string) (uid, gid uint32, groups []uint32, err error
 	return uid, gid, groups, nil
 }
 
+// HomeFor returns uid's home directory from the image's /etc/passwd.
+func HomeFor(root string, uid uint32) string { return homeFor(root, uid) }
+
 func homeFor(root string, uid uint32) string {
 	for _, f := range readColonFile(root, "/etc/passwd") {
 		if len(f) > 5 && f[2] == strconv.FormatUint(uint64(uid), 10) {

@@ -1,0 +1,28 @@
+# A multi-stage build that exercises the builder:
+#  - "build" and "assets" do not depend on each other, so they run in parallel
+#  - "unused" is never built, because the final stage does not need it
+#  - the final image contains only the static binary and the generated file
+ARG GO_IMAGE=mirror.gcr.io/library/golang:1.24-alpine
+
+FROM ${GO_IMAGE} AS build
+WORKDIR /src
+# Copy the module file first so dependency resolution is cached separately
+# from source edits (a no-op here, but the habit matters for real apps).
+COPY go.mod ./
+RUN go mod download
+COPY main.go ./
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/hello .
+
+FROM mirror.gcr.io/library/busybox:latest AS assets
+RUN mkdir -p /out && date -u +%Y-%m-%dT%H:%M:%SZ > /out/built-at
+
+FROM mirror.gcr.io/library/busybox:latest AS unused
+RUN echo "you will never see this" && sleep 30
+
+FROM mirror.gcr.io/library/busybox:latest
+COPY --from=build /out/hello /usr/local/bin/hello
+COPY --from=assets /out/built-at /etc/built-at
+ENV PORT=8080
+EXPOSE 8080
+USER 65534:65534
+CMD ["hello"]
