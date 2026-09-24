@@ -86,7 +86,7 @@ Run `rh <command> -h` for flags.
 
 ## Learning path
 
-Start with the [20-day intensive study plan](docs/00-study-plan.md). It assumes you have used CI/CD and Docker Compose, and takes you, day by day at 6 to 8 hours a day, through Linux, networking and Go foundations, the container stack, the control plane, and interview practice. The [glossary](docs/glossary.md) defines every term.
+Start with the [20-day intensive study plan](docs/00-study-plan.md). It assumes you have used CI/CD and Docker Compose, and takes you, day by day at 6 to 8 hours a day, through Linux, networking and Go foundations, the container stack, the control plane, and interview practice. The [glossary](docs/glossary.md) defines every term, and the [coaching routine](docs/coach.md) describes the daily check-ins that track your progress in [`progress/`](progress/README.md).
 
 **Foundations**
 

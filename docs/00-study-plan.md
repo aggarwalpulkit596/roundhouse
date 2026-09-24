@@ -210,6 +210,8 @@ Keep the same daily shape and continue with:
 
 The minimum path to interview readiness (about 10 days): days 1, 3, 5, 6, 8, 9, 13, 14, 15 and 19, reading modules 2, 6 and 7 as time allows.
 
-## How to use Claude with this plan
+## Daily coaching
 
-Ask Claude to quiz you on any module's "Check yourself" questions, to explain a line of Roundhouse code you do not understand, to review your exercise code, or to play the interviewer in the mock design interview and push back with follow-up questions.
+Claude checks in twice a day (10:00 and 22:00 IST) to quiz you, unblock you and keep your record in [`progress/`](../progress/README.md): the day tracker, a spaced-review queue of weak topics, and interview readiness per area. See [the coaching routine](coach.md) for exactly how the check-ins work.
+
+You can also ask Claude at any time to explain a line of Roundhouse code, review your exercise code, or run an extra mock interview.
