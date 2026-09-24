@@ -79,6 +79,7 @@ type State struct {
 	Pid        int       `json:"pid,omitempty"`
 	PidStart   uint64    `json:"pidStart,omitempty"` // guards against pid reuse
 	ShimPid    int       `json:"shimPid,omitempty"`
+	ShimStart  uint64    `json:"shimStart,omitempty"`
 	StartedAt  time.Time `json:"startedAt,omitempty"`
 	FinishedAt time.Time `json:"finishedAt,omitempty"`
 	ExitCode   int       `json:"exitCode"`
@@ -353,6 +354,10 @@ func (m *Manager) List() ([]Info, error) {
 			// Re-read: the supervisor may have written the exit a moment ago.
 			if st2, err := m.ReadState(rec.ID); err == nil && st2.Status != StatusRunning {
 				st = st2
+			} else if st.ShimPid > 0 && st.ShimPid != os.Getpid() && Alive(st.ShimPid, st.ShimStart) {
+				// The init is gone but its shim is still recording the exit;
+				// report it as still running for this brief window rather
+				// than inventing an exit code.
 			} else {
 				st.Status = StatusExited
 				st.ExitCode = -1
@@ -613,4 +618,19 @@ func hasKey(env []string, k string) bool {
 		}
 	}
 	return false
+}
+
+// BumpRestarts increments the restart counter of an exited container, so
+// restart policies can compute backoff from observed state alone.
+func (m *Manager) BumpRestarts(ref string) error {
+	c, err := m.Get(ref)
+	if err != nil {
+		return err
+	}
+	st := c.State
+	if st.Status == StatusRunning {
+		return fmt.Errorf("container %s is running", c.Name)
+	}
+	st.Restarts++
+	return m.writeState(c.ID, st)
 }

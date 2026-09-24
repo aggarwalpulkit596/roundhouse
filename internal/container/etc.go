@@ -168,6 +168,9 @@ func writeEtc(root string, rec *Record, dns []string, extra map[string]string) e
 	return writeInRoot(root, "/etc/resolv.conf", []byte(r.String()))
 }
 
+// HostNameservers returns the resolvers containers should use by default.
+func HostNameservers() []string { return hostNameservers() }
+
 // hostNameservers copies the host's resolvers, skipping loopback ones
 // (systemd-resolved's 127.0.0.53 is unreachable from another netns).
 func hostNameservers() []string {

@@ -120,7 +120,7 @@ func (m *Manager) RunForeground(ref string, stdin io.Reader, stdout, stderr io.W
 		return -1, err
 	}
 	ps, _ := ProcStartTime(ctr.Pid)
-	st := State{Status: StatusRunning, Pid: ctr.Pid, PidStart: ps, ShimPid: os.Getpid(), StartedAt: time.Now().UTC(), Restarts: c.State.Restarts}
+	st := State{Status: StatusRunning, Pid: ctr.Pid, PidStart: ps, ShimPid: os.Getpid(), ShimStart: selfStart(), StartedAt: time.Now().UTC(), Restarts: c.State.Restarts}
 	_ = m.writeState(rec.ID, st)
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -258,7 +258,7 @@ func ShimMain(root, id string) {
 	go func() { defer wg.Done(); logw.Copy("stderr", errR) }()
 
 	ps, _ := ProcStartTime(ctr.Pid)
-	st := State{Status: StatusRunning, Pid: ctr.Pid, PidStart: ps, ShimPid: os.Getpid(), StartedAt: time.Now().UTC(), Restarts: prev.Restarts}
+	st := State{Status: StatusRunning, Pid: ctr.Pid, PidStart: ps, ShimPid: os.Getpid(), ShimStart: selfStart(), StartedAt: time.Now().UTC(), Restarts: prev.Restarts}
 	if err := m.writeState(id, st); err != nil {
 		_ = ctr.Cgroup.Kill()
 		fail(err)
@@ -427,4 +427,9 @@ func (m *Manager) ReadLogs(ctx context.Context, id string, follow bool, tail int
 		}
 	}
 	return nil
+}
+
+func selfStart() uint64 {
+	st, _ := ProcStartTime(os.Getpid())
+	return st
 }

@@ -1,0 +1,13 @@
+{
+  "name": "web",
+  "image": "mirror.gcr.io/library/busybox:latest",
+  "cmd": ["sh", "-c", "mkdir -p /www && echo \"$VERSION from $HOSTNAME\" > /www/index.html && echo ok > /www/health && exec httpd -f -v -p $PORT -h /www"],
+  "env": { "VERSION": "v1" },
+  "port": 8080,
+  "publicPort": 18090,
+  "replicas": 2,
+  "healthcheck": { "path": "/health", "intervalSeconds": 1 },
+  "drainSeconds": 3,
+  "memoryMb": 64,
+  "cpu": 0.5
+}
