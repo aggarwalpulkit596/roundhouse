@@ -95,6 +95,7 @@ func (s *Store) UnpackLayer(blob Digest, mediaType string, diffID Digest) error 
 // UnpackTar extracts a layer tar into dir in overlayfs format and returns the
 // sha256 of the tar stream (the diff ID).
 func UnpackTar(r io.Reader, dir string) (Digest, error) {
+	privileged := os.Geteuid() == 0
 	h := sha256.New()
 	tee := io.TeeReader(r, h)
 	tr := tar.NewReader(tee)
@@ -200,8 +201,12 @@ func UnpackTar(r io.Reader, dir string) (Digest, error) {
 			return "", fmt.Errorf("%s: unsupported tar type %q", name, hdr.Typeflag)
 		}
 
-		if err := os.Lchown(target, hdr.Uid, hdr.Gid); err != nil {
-			return "", err
+		// Only root can give files away. An unprivileged unpack (tests,
+		// rootless tools) keeps its own uid, as `tar` does for non-root.
+		if privileged {
+			if err := os.Lchown(target, hdr.Uid, hdr.Gid); err != nil {
+				return "", err
+			}
 		}
 		for k, v := range hdr.PAXRecords {
 			if x, ok := strings.CutPrefix(k, "SCHILY.xattr."); ok {
