@@ -2,7 +2,7 @@
 
 > **Goal:** turn what you built and read into answers you can give under time pressure, and a design interview you have rehearsed.
 
-The brief you are preparing for: a senior infrastructure role on a platform team, a technical interview built around **architecting a container provisioning engine**, and a culture that values ownership and people who build things. Your advantages are platform-engineering experience (you know what users of a platform need) and, after this curriculum, a working engine you wrote and can reason about line by line.
+The brief you are preparing for: a senior infrastructure role on a platform team, a technical interview built around **architecting a container provisioning engine**, and a culture that values ownership and people who build things. Your advantages: you have been a user of platforms (CI/CD, Docker Compose), so you know what developers expect from one, and after this curriculum you have a working engine you studied and extended, which you can reason about line by line. Say so plainly: interviewers value someone who went deep fast over someone who claims experience they cannot explain.
 
 ## How to use this module
 
@@ -173,7 +173,7 @@ Adjust it to what you actually extended (module 12). Be ready to open any file a
 
 ## 5. Stories to prepare (behavioural)
 
-For each, one concrete situation from your platform-engineering past, told as situation → what you did → result → what you learned:
+For each, one concrete situation from your own experience (CI/CD, development, or this curriculum itself), told as situation → what you did → result → what you learned:
 
 - An outage you owned end to end, and what you changed so it could not recur.
 - A time you simplified a system instead of adding to it.

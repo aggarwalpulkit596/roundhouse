@@ -86,11 +86,24 @@ Run `rh <command> -h` for flags.
 
 ## Learning path
 
-Start with the [study plan](docs/00-study-plan.md). It is written for someone who already knows platform engineering (Kubernetes, CI/CD, Terraform) and wants to go one level down into the kernel and the runtime.
+Start with the [20-day intensive study plan](docs/00-study-plan.md). It assumes you have used CI/CD and Docker Compose, and takes you, day by day at 6 to 8 hours a day, through Linux, networking and Go foundations, the container stack, the control plane, and interview practice. The [glossary](docs/glossary.md) defines every term.
+
+**Foundations**
+
+| #   | Module                                                            | Question it answers                                               |
+| --- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| F0  | [Setup](docs/foundations/f0-setup.md)                             | How do I get a Linux lab machine with the tools?                  |
+| F1  | [Linux](docs/foundations/f1-linux.md)                             | Processes, system calls, file descriptors, signals, mounts, /proc |
+| F2  | [Networking](docs/foundations/f2-networking.md)                   | IP, routing, NAT, TCP, DNS, HTTP and load balancers               |
+| F3  | [Go](docs/foundations/f3-go.md)                                   | Enough Go to read and change infrastructure code                  |
+| F4  | [Docker and Compose](docs/foundations/f4-docker-and-compose.md)   | What every Compose field does to the system                       |
+| F5  | [Kubernetes](docs/foundations/f5-kubernetes.md)                   | The vocabulary and architecture interviewers assume               |
+| F6  | [Distributed systems](docs/foundations/f6-distributed-systems.md) | Failure detection, leases, consensus, idempotency, overload       |
+
+**The container stack and the control plane**
 
 | #   | Module                                                    | Question it answers                                                 |
 | --- | --------------------------------------------------------- | ------------------------------------------------------------------- |
-| 0   | [Study plan](docs/00-study-plan.md)                       | What do I study, in what order, and how do I know I know it?        |
 | 1   | [Processes and namespaces](docs/01-namespaces.md)         | What is a container, really?                                        |
 | 2   | [Filesystems](docs/02-filesystems.md)                     | chroot vs pivot_root, overlayfs, layers, whiteouts                  |
 | 3   | [cgroups](docs/03-cgroups.md)                             | How are limits enforced and usage measured and billed?              |
