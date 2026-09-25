@@ -6,7 +6,7 @@ Quiz score: each answer earns 2 (complete and precise), 1 (partly right or vague
 | Day | Date       | Focus                                               | Status      | Hours | AM quiz | PM quiz        | Notes                                                       |
 | --- | ---------- | --------------------------------------------------- | ----------- | ----- | ------- | -------------- | ----------------------------------------------------------- |
 | 0   | Thu 24 Sep | F0: lab machine setup                               | done        | 0.6   |         | 17% (baseline) | `rh run` works; dashboard not opened yet (do Day 1 morning) |
-| 1   | Fri 25 Sep | F1 §1–3: processes, syscalls, fds                   | not started |       |         |                |                                                             |
+| 1   | Fri 25 Sep | F1 §1–3: processes, syscalls, fds                   | in progress |       |         |                |                                                             |
 | 2   | Sat 26 Sep | F1 §4–8: signals, users, mounts, /proc, systemd     | not started |       |         |                |                                                             |
 | 3   | Sun 27 Sep | F2: networking fundamentals                         | not started |       |         |                |                                                             |
 | 4   | Mon 28 Sep | F3: Go for infrastructure                           | not started |       |         |                |                                                             |
