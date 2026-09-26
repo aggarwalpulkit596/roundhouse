@@ -7,7 +7,7 @@ Quiz score: each answer earns 2 (complete and precise), 1 (partly right or vague
 | --- | ---------- | --------------------------------------------------- | ----------- | ----- | ------- | -------------- | ----------------------------------------------------------- |
 | 0   | Thu 24 Sep | F0: lab machine setup                               | done        | 0.6   |         | 17% (baseline) | `rh run` works; dashboard not opened yet (do Day 1 morning) |
 | 1   | Fri 25 Sep | F1 §1–3: processes, syscalls, fds                   | partial     |       |         |                | no report or warm-up answers yet (as of 22:00)              |
-| 2   | Sat 26 Sep | F1 §4–8: signals, users, mounts, /proc, systemd     | not started |       |         |                | 10:00 nudge sent; waiting to hear whether Day 1 is finished |
+| 2   | Sat 26 Sep | F1 §4–8: signals, users, mounts, /proc, systemd     | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins; Day 1 still open      |
 | 3   | Sun 27 Sep | F2: networking fundamentals                         | not started |       |         |                |                                                             |
 | 4   | Mon 28 Sep | F3: Go for infrastructure                           | not started |       |         |                |                                                             |
 | 5   | Tue 29 Sep | F4: Docker & Compose + your own 60-line runtime     | not started |       |         |                |                                                             |
