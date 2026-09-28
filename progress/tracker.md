@@ -9,7 +9,7 @@ Quiz score: each answer earns 2 (complete and precise), 1 (partly right or vague
 | 1   | Fri 25 Sep | F1 §1–3: processes, syscalls, fds                   | partial     |       |         |                | no report or warm-up answers yet (as of 22:00)              |
 | 2   | Sat 26 Sep | F1 §4–8: signals, users, mounts, /proc, systemd     | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins; Day 1 still open      |
 | 3   | Sun 27 Sep | F2: networking fundamentals                         | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins; F1 still not started  |
-| 4   | Mon 28 Sep | F3: Go for infrastructure                           | not started |       |         |                |                                                             |
+| 4   | Mon 28 Sep | F3: Go for infrastructure                           | not started |       |         |                | 10:00 one-line nudge; awaiting reply                        |
 | 5   | Tue 29 Sep | F4: Docker & Compose + your own 60-line runtime     | not started |       |         |                |                                                             |
 | 6   | Wed 30 Sep | Module 1: namespaces                                | not started |       |         |                |                                                             |
 | 7   | Thu 01 Oct | Module 2: filesystems (ends early)                  | not started |       |         |                |                                                             |
