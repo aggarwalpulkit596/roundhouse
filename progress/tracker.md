@@ -11,7 +11,7 @@ Quiz score: each answer earns 2 (complete and precise), 1 (partly right or vague
 | 3   | Sun 27 Sep | F2: networking fundamentals                         | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins; F1 still not started  |
 | 4   | Mon 28 Sep | F3: Go for infrastructure                           | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
 | 5   | Tue 29 Sep | F4: Docker & Compose + your own 60-line runtime     | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
-| 6   | Wed 30 Sep | Module 1: namespaces                                | not started |       |         |                | 10:00 one-line nudge; awaiting reply                        |
+| 6   | Wed 30 Sep | Module 1: namespaces                                | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
 | 7   | Thu 01 Oct | Module 2: filesystems (ends early)                  | not started |       |         |                |                                                             |
 | 8   | Fri 02 Oct | Modules 3–4: cgroups, security                      | not started |       |         |                |                                                             |
 | 9   | Sat 03 Oct | Module 5: container networking                      | not started |       |         |                |                                                             |
