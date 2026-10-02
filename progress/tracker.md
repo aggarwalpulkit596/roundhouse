@@ -13,7 +13,7 @@ Quiz score: each answer earns 2 (complete and precise), 1 (partly right or vague
 | 5   | Tue 29 Sep | F4: Docker & Compose + your own 60-line runtime     | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
 | 6   | Wed 30 Sep | Module 1: namespaces                                | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
 | 7   | Thu 01 Oct | Module 2: filesystems (ends early)                  | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
-| 8   | Fri 02 Oct | Modules 3–4: cgroups, security                      | not started |       |         |                | 10:00 one-line nudge; awaiting reply                        |
+| 8   | Fri 02 Oct | Modules 3–4: cgroups, security                      | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
 | 9   | Sat 03 Oct | Module 5: container networking                      | not started |       |         |                |                                                             |
 | 10  | Sun 04 Oct | Module 6: images and registries                     | not started |       |         |                |                                                             |
 | 11  | Mon 05 Oct | Module 7: builds                                    | not started |       |         |                |                                                             |
