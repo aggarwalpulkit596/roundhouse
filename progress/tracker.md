@@ -16,7 +16,7 @@ Quiz score: each answer earns 2 (complete and precise), 1 (partly right or vague
 | 8   | Fri 02 Oct | Modules 3–4: cgroups, security                      | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
 | 9   | Sat 03 Oct | Module 5: container networking                      | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
 | 10  | Sun 04 Oct | Module 6: images and registries                     | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
-| 11  | Mon 05 Oct | Module 7: builds                                    | not started |       |         |                | 10:00 one-line nudge; awaiting reply                        |
+| 11  | Mon 05 Oct | Module 7: builds                                    | partial     |       |         |                | no reply to 10:00 or 22:00 check-ins                        |
 | 12  | Tue 06 Oct | F5 + F6 §1–4: Kubernetes, distributed systems       | not started |       |         |                |                                                             |
 | 13  | Wed 07 Oct | Module 8: provisioning engine, part 1               | not started |       |         |                |                                                             |
 | 14  | Thu 08 Oct | Module 8 part 2 + first engine feature (ends early) | not started |       |         |                |                                                             |
